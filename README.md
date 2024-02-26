@@ -1,6 +1,6 @@
 ## A robust Text-to-SQL solution for Amazon Athena
 
-This is the repo for AWS AI/ML Blog Post: XXXX-LInk
+This is the repo for AWS AI/ML Blog Post: https://aws.amazon.com/blogs/machine-learning/build-a-robust-text-to-sql-solution-generating-complex-queries-self-correcting-and-querying-diverse-data-sources/
 
 ### 1)	Introduction
 
