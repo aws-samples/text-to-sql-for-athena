@@ -1,0 +1,100 @@
+[
+    {
+"database_name": "imdb_stg",
+"table_name": "title",
+ "table_description": "This dataset contains title details.",
+ "relationships": {
+            "primary_key": [
+                {
+                    "column_name": "titleId",
+                    "constraint": "not null"
+                },
+                {
+                    "column_name": "ordering",
+                    "constraint": "not null"
+                }
+                ],
+                "foreign_keys": [
+                {
+                    "database_name": "imdb_stg",
+                    "table_name": "title_ratings",
+                    "join_on_column": "tconst"
+                }
+                ]
+               },
+               "columns": [
+            {
+                "Name": "titleId",
+                "Type": "string",
+                "Comment": "This is the unique identifier of the title"
+            },
+            {
+                "Name": "ordering",
+                "Type": "integer",
+                "Comment": "This is the uniquely identify rows for a given titleId"
+            },
+            {
+                "Name": "title",
+                "Type": "string",
+                "Comment": "The localized title"
+            },
+            {
+                "Name": "region",
+                "Type": "string",
+                "Comment": "region for this version of the title"
+            },
+            {
+                "Name": "language",
+                "Type": "string",
+                "Comment": "the language of the title"
+            },
+            {
+                "Name": "types",
+                "Type": "string",
+                "Comment": "Enumerated set of attributes for this alternative title. One or more of the following: alternative, dvd, festival, tv, video, working, original, imdbDisplay. New values may be added in the future without warning"
+            },
+            {
+                "Name": "attributes",
+                "Type": "string",
+                "Comment": "Additional terms to describe this alternative title, not enumerated"
+            },
+            {
+                "Name": "isOriginalTitle",
+                "Type": "string",
+                "Comment": "0: not original title; 1: original title"
+            }
+            ]
+            },
+            {
+"database_name": "imdb_stg",
+"table_name": "title_ratings",
+ "table_description": "This dataset contains ratings details",
+ "relationships": {
+            "primary_key": [
+                {
+                    "column_name": "tconst",
+                    "constraint": "not null"
+                }
+                ]
+               },
+               "columns": [
+            {
+                "Name": "tconst",
+                "Type": "string",
+                "Comment": "This is the unique identifier of the title"
+            },
+            {
+                "Name": "averageRating",
+                "Type": "integer",
+                "Comment": "Weighted average of all the individual user ratings"
+            },
+            {
+                "Name": "numVotes",
+                "Type": "string",
+                "Comment": "Number of votes the title has received"
+            }
+            ]
+        }  
+    ]
+               
+  
