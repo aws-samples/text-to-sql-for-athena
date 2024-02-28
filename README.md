@@ -27,6 +27,8 @@ At this stage, the process is ready to receive the query in natural language. He
 9.	[Correction loop, if applicable] Create the corrected SQL and continue the process. This iteration can be performed multiple times.
 10.	Finally, execute SQL using Athena and generate output. Here, the output is presented to the user. For the sake of architectural simplicity, we did not show this step.
 
+## Using the repo
+Please start with [the notebook](https://github.com/aws-samples/text-to-sql-for-athena/blob/main/BedrockTextToSql_for_Athena.ipynb)
 
 ## Security
 
