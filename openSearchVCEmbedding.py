@@ -33,8 +33,8 @@ from boto_client import Clientmodules
 
 
 # Here Keeping the required parameter. can be used from config store.
-http_auth = ('llm_vector','@llm_vectorS1')
-opensearch_domain_endpoint = 'https://search-llm-vectordb-1-jsdrnnhchl6rsh7s4biqregpuq.us-east-1.es.amazonaws.com'
+http_auth = ('llm**ector','@l****S1')
+opensearch_domain_endpoint = 'https://search-llm-1.es.amazonaws.com'
 aws_region = 'us-east-1'
 index_name = 'llm_vector_db_metadata_indx1'
 
@@ -45,8 +45,8 @@ class EmbeddingBedrockOpenSearch:
         self.language_model = LanguageModel(self.bedrock_client)
         self.llm = self.language_model.llm
         self.embeddings = self.language_model.embeddings
-        self.opensearch_domain_endpoint='https://search-llm-vectordb-1-jsdrnnhchl6rsh7s4biqregpuq.us-east-1.es.amazonaws.com'
-        self.http_auth=('llm_vector','@llm_vectorS1')
+        self.opensearch_domain_endpoint='https://search******puq.us-east-1.es.amazonaws.com'
+        self.http_auth=('llm_vector','@l****orS1')
     
     def check_if_index_exists(self,index_name: str, region: str, host: str, http_auth: Tuple[str, str]) -> OpenSearch:
         aos_client = OpenSearch(
