@@ -3,7 +3,6 @@ import logging
 import json
 import os,sys
 import re
-sys.path.append("/home/ec2-user/SageMaker/llm_bedrock_v0/")
 import schema_details.tbl_schema  as sc
 from llm_basemodel import LanguageModel
 from boto_client import Clientmodules
