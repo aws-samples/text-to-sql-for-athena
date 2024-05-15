@@ -17,7 +17,7 @@ from langchain.document_loaders import JSONLoader
 logger = logging.getLogger()
 logging.basicConfig(format='%(asctime)s,%(module)s,%(processName)s,%(levelname)s,%(message)s', level=logging.INFO, stream=sys.stderr)
 
-sys.path.append("/home/ec2-user/SageMaker/llm_bedrock_v0/")
+
 from llm_basemodel import LanguageModel
 from boto_client import Clientmodules
 
@@ -33,8 +33,8 @@ from boto_client import Clientmodules
 
 
 # Here Keeping the required parameter. can be used from config store.
-http_auth = ('llm**ector','@l****S1')
-opensearch_domain_endpoint = 'https://search-llm-1.es.amazonaws.com'
+http_auth = ('admin','_BjK0N9nVZWwZlHC')
+opensearch_domain_endpoint = 'https://search-rag-5szd2kfqwkd6yggxlyfyx6umm4.us-east-1.es.amazonaws.com'
 aws_region = 'us-east-1'
 index_name = 'llm_vector_db_metadata_indx1'
 
@@ -45,8 +45,8 @@ class EmbeddingBedrockOpenSearch:
         self.language_model = LanguageModel(self.bedrock_client)
         self.llm = self.language_model.llm
         self.embeddings = self.language_model.embeddings
-        self.opensearch_domain_endpoint='https://search******puq.us-east-1.es.amazonaws.com'
-        self.http_auth=('llm_vector','@l****orS1')
+        self.opensearch_domain_endpoint='https://search-rag-5szd2kfqwkd6yggxlyfyx6umm4.us-east-1.es.amazonaws.com'
+        self.http_auth=('admin','_BjK0N9nVZWwZlHC')
     
     def check_if_index_exists(self,index_name: str, region: str, host: str, http_auth: Tuple[str, str]) -> OpenSearch:
         aos_client = OpenSearch(
@@ -104,3 +104,10 @@ class EmbeddingBedrockOpenSearch:
         result = result.replace('{', '{{')
         result = result.replace('}', '}}')
         return result
+    
+    
+if __name__ == "__main__":
+    embedding_bedrock = EmbeddingBedrockOpenSearch()
+    embedding_bedrock.add_documnets(index_name,'metadata.jsonl')
+    # vcindex = embedding_bedrock.getDocumentfromIndex(index_name)
+    # # user_query='

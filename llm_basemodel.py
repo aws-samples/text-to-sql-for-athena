@@ -1,6 +1,6 @@
 from langchain.llms.bedrock import Bedrock
 from langchain.embeddings import BedrockEmbeddings
-
+from langchain_community.chat_models import BedrockChat
 
 class LanguageModel():
     def __init__(self,client):
@@ -15,7 +15,7 @@ class LanguageModel():
                 "top_p": 1,
                 "stop_sequences": ["\n\nHuman:"],
             }
-        self.llm = Bedrock(model_id = "anthropic.claude-v2:1",
+        self.llm = BedrockChat(model_id = "anthropic.claude-3-sonnet-20240229-v1:0",
                             client = self.bedrock_client, 
                             model_kwargs = inference_modifier 
                             )
@@ -23,5 +23,5 @@ class LanguageModel():
         # Embeddings Modules
         self.embeddings = BedrockEmbeddings(
             client=self.bedrock_client, 
-            model_id="amazon.titan-embed-text-v1"
+            model_id="amazon.titan-embed-text-v2:0"
         )
