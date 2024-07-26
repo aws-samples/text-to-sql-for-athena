@@ -15,7 +15,7 @@ logger.addHandler(logging.StreamHandler())
 
 class AthenaQueryExecute:
     def __init__(self):
-        self.glue_databucket_name='llm-athena-output'
+        self.glue_databucket_name='vishal-bucket103'
         self.athena_client=Clientmodules.createAthenaClient()
         self.s3_client=Clientmodules.createS3Client()
     
@@ -26,7 +26,7 @@ class AthenaQueryExecute:
         query_execution_context = {
             "Catalog": "AwsDataCatalog",
         }
-        # print(f"Executing: {query_string}")
+        print(f"Executing: {query_string}")
         query_execution = self.athena_client.start_query_execution(
             QueryString=query_string,
             ResultConfiguration=result_config,
@@ -38,7 +38,7 @@ class AthenaQueryExecute:
         # self.wait_for_execution(execution_id)
         file_name = f"{result_folder}/{execution_id}.csv"
         logger.info(f'checking for file :{file_name}')
-        local_file_name = f"/tmp/{file_name}"
+        local_file_name = f"./tmp/{file_name}"
 
         print(f"Calling download fine with params {local_file_name}, {result_config}")
         obj = self.s3_client.get_object(Bucket= self.glue_databucket_name , Key = file_name)
@@ -47,7 +47,7 @@ class AthenaQueryExecute:
         return df
         
     def syntax_checker(self,query_string):
-        # print("Inside execute query", query_string)
+        print("Inside yntax_checker", query_string)
         query_result_folder='athena_query_output/'
         query_config = {"OutputLocation": f"s3://{self.glue_databucket_name}/{query_result_folder}"}
         query_execution_context = {

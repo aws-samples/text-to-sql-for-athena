@@ -1,14 +1,18 @@
-from langchain.document_loaders import JSONLoader
+##from langchain.document_loaders import JSONLoader
+from langchain_community.document_loaders import JSONLoader
 import logging 
 import json
 import os,sys
 import re
 sys.path.append("/home/ec2-user/SageMaker/llm_bedrock_v0/")
-import schema_details.tbl_schema  as sc
+##import schema_details.tbl_schema  as sc
 from llm_basemodel import LanguageModel
+
 from boto_client import Clientmodules
-from langchain.embeddings import BedrockEmbeddings
-from langchain.vectorstores import FAISS
+##from langchain.embeddings import BedrockEmbeddings
+from langchain_community.embeddings import BedrockEmbeddings
+##from langchain.vectorstores import FAISS
+from langchain_community.vectorstores import FAISS
 import numpy as np
 from datetime import datetime
 

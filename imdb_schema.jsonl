@@ -1,6 +1,6 @@
 [
     {
-"database_name": "imdb_stg",
+"database_name": "text2sql",
 "table_name": "title",
  "table_description": "This dataset contains title details.",
  "relationships": {
@@ -16,7 +16,7 @@
                 ],
                 "foreign_keys": [
                 {
-                    "database_name": "imdb_stg",
+                    "database_name": "text2sql",
                     "table_name": "title_ratings",
                     "join_on_column": "tconst"
                 }
@@ -66,8 +66,8 @@
             ]
             },
             {
-"database_name": "imdb_stg",
-"table_name": "title_ratings",
+"database_name": "text2sql",
+"table_name": "title_rating",
  "table_description": "This dataset contains ratings details",
  "relationships": {
             "primary_key": [
@@ -84,7 +84,7 @@
                 "Comment": "This is the unique identifier of the title"
             },
             {
-                "Name": "averageRating",
+                "Name": "averagerating",
                 "Type": "integer",
                 "Comment": "Weighted average of all the individual user ratings"
             },

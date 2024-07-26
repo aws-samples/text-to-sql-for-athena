@@ -15,17 +15,37 @@ This post will address those challenges. First, we will include the meta-data of
 <img width="434" alt="image" src="https://github.com/aws-samples/text-to-sql-for-athena/assets/84034588/0c523340-0d7d-4da0-a409-1583a04184fe">
 
 #### Process Walkthrough
-1.	[Preparation] Create the Data Catalog on AWS Glue using AWS Glue Crawler or a different method. 
-2.	[Preparation] Using Titan-Text- Embeddings model on Amazon Bedrock, convert meta-data into embeddings and store it in OpenSearch vector store, which will be our knowledge-base in our RAG framework.
-At this stage, the process is ready to receive the query in natural language. Hence, it starts with;
-3.	User putting their query in natural language. Here, you can use any web-application to provide the chat UI. Hence, we did not cover the UI details in our post.
-4.	Apply RAG framework via the similarity search which would add the extra context from the metadata from the vector database that we formed in Step-2. This table is used for finding the correct table, database and attributes.
-5.	Merging the query with the context is sent to Claude v2.1 on Amazon Bedrock.
-6.	Get the generated SQL query and connect to Athena to validate the syntax. 
-7.	[Correction loop, if applicable] If Athena provides an error message that mentions the syntax is incorrect, we will receive use the error text from Athena’s response.
-8.	[Correction loop, if applicable] The new prompt now adds the Athena’s response. 
-9.	[Correction loop, if applicable] Create the corrected SQL and continue the process. This iteration can be performed multiple times.
-10.	Finally, execute SQL using Athena and generate output. Here, the output is presented to the user. For the sake of architectural simplicity, we did not show this step.
+1. Create a knowledge base "movie-knowledgebase" in Bedrock with Opensearchserverless as the vector store
+2. In the Opensearchserverless console
+    - Record the OpenSearch endpoint.   
+    - From the indexes tab record the index name. It should be something similar to "bedrock-knowledge-base-default-index" 
+    - Also record the vector field . It should be something like "bedrock-knowledge-base-default-vector"
+    - Also record the Metadata field of "id". 
+
+    
+3.  Create an S3 bucket KB-<ACCOUNT_ID>
+    - Create an  folder "input"
+4.  download the sample files from the following links
+     - https://developer.imdb.com/non-commercial-datasets/#titleakastsvgz
+     - https://developer.imdb.com/non-commercial-datasets/#titleratingstsvgz
+5.  Upload the downloaded files into the "input" folder.
+6.  Create a glue database "imdb_stg". Create a glue crawler and set the database name to be "imdb_stg" .  Start the glue crawler to crawl  the S3 bucket KB-<ACCOUNT_ID>/input location. It should create 2 tables in Glue catalog. 
+    If you use another database name instead of "imdb_stg", update the file "idmb_schema.jsonl" the field of "database_name" to the exact name of the new glue database.
+7. Query the 2 tables via Athena to see that the data exists.
+8. Create another folder in the S3 bucket KB-<ACCOUNT_ID> "metadata". 
+   - Upload the file "imdb_schema.json"  into the metadata folder. 
+9. From the Bedrock console, sync up the "movie-knowledgebase".
+10. Run the jupyter notebook  with the following caveats
+    - In the step 2 of this process walkthru, if the values for the index name, vector field , metadata field value are different substitute it in the step "4.1 Update the variables" of the jupyter notebook. 
+11. Continue with rest of the steps till Step 6 . At this stage, the process is ready to receive the query in natural language. 
+12.	User putting their query in natural language. Here, you can use any web-application to provide the chat UI. Hence, we did not cover the UI details in our post.
+13.	Apply RAG framework via the similarity search which would add the extra context from the metadata from the vector database that we formed in Step-2. This table is used for finding the correct table, database and attributes.
+14.	Merging the query with the context is sent to Claude v3 on Amazon Bedrock.
+15.	Get the generated SQL query and connect to Athena to validate the syntax. 
+16.	[Correction loop, if applicable] If Athena provides an error message that mentions the syntax is incorrect, we will receive use the error text from Athena’s response.
+17.	[Correction loop, if applicable] The new prompt now adds the Athena’s response. 
+18.	[Correction loop, if applicable] Create the corrected SQL and continue the process. This iteration can be performed multiple times.
+19.	Finally, execute SQL using Athena and generate output. Here, the output is presented to the user. For the sake of architectural simplicity, we did not show this step.
 
 ## Using the repo
 Please start with [the notebook](https://github.com/aws-samples/text-to-sql-for-athena/blob/main/BedrockTextToSql_for_Athena.ipynb)
