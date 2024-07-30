@@ -186,7 +186,7 @@ class EmbeddingBedrockOpenSearch:
 def main():
     print('main() executed')
     index_name1 = 'bedrock-knowledge-base-default-index'    
-    domain = 'https://SAMPLE.us-east-1.aoss.amazonaws.com'
+    domain = 'https://OPENSEARCH.us-east-1.aoss.amazonaws.com'
     vector_field = 'bedrock-knowledge-base-default-vector'
     fieldname = 'id'
     try:
