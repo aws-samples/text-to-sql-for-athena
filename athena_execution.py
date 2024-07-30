@@ -15,7 +15,7 @@ logger.addHandler(logging.StreamHandler())
 
 class AthenaQueryExecute:
     def __init__(self):
-        self.glue_databucket_name='vishal-bucket103'
+        self.glue_databucket_name='ATHENA-OUTPUT-BUCKET'
         self.athena_client=Clientmodules.createAthenaClient()
         self.s3_client=Clientmodules.createS3Client()
     
@@ -47,7 +47,7 @@ class AthenaQueryExecute:
         return df
         
     def syntax_checker(self,query_string):
-        print("Inside yntax_checker", query_string)
+        print("Inside syntax_checker", query_string)
         query_result_folder='athena_query_output/'
         query_config = {"OutputLocation": f"s3://{self.glue_databucket_name}/{query_result_folder}"}
         query_execution_context = {

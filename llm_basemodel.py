@@ -11,7 +11,7 @@ class LanguageModel():
         # Anthropic Claude     
         # Bedrock LLM
         inference_modifier = {
-                "max_tokens_to_sample": 3000,
+               ### "max_tokens_to_sample": 3000,
                 "temperature": 0,
                 "top_k": 20,
                 "top_p": 1,

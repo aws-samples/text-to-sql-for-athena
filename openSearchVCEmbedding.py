@@ -186,23 +186,22 @@ class EmbeddingBedrockOpenSearch:
 def main():
     print('main() executed')
     index_name1 = 'bedrock-knowledge-base-default-index'    
-    ##index_name1  = 'bedrock-knowledge-base-zttfoy'
-    domain = 'https://wi3kkhxignse60pcjop5.us-east-1.aoss.amazonaws.com'
+    domain = 'https://SAMPLE.us-east-1.aoss.amazonaws.com'
     vector_field = 'bedrock-knowledge-base-default-vector'
     fieldname = 'id'
     try:
         ebropen = EmbeddingBedrockOpenSearch (domain, vector_field, fieldname)
         ebropen.check_if_index_exists(index_name=index_name1, region='us-east-1',host=domain,http_auth=awsauth )
-        logger.info("now trying getdocument*************")    
+
         vcindxdoc=ebropen.getDocumentfromIndex(index_name=index_name1)
-        logger.info("now getting the title**************")
+
         user_query='show me all the titles in US region'
         document=ebropen.getSimilaritySearch(user_query,vcindex = vcindxdoc )
         ##print(document)
 
         #result = ebropen.format_metadata(document)
         result = ebropen.get_data(document)
-        print("\n\n****************888888888************")
+
         print(result)
     except Exception as e:
         print(e )
