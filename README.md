@@ -21,22 +21,24 @@ This post will address those challenges. First, we will include the meta-data of
     - From the indexes tab record the index name. It should be something similar to "bedrock-knowledge-base-default-index" 
     - Also record the vector field . It should be something like "bedrock-knowledge-base-default-vector"
     - Also record the Metadata field of "id". 
-
-    
 3.  Create an S3 bucket KB-<ACCOUNT_ID>
     - Create an  folder "input"
-4.  download the sample files from the following links
+4.  Download the sample files from the following links
      - https://developer.imdb.com/non-commercial-datasets/#titleakastsvgz
      - https://developer.imdb.com/non-commercial-datasets/#titleratingstsvgz
 5.  Upload the downloaded files into the "input" folder.
 6.  Create a glue database "imdb_stg". Create a glue crawler and set the database name to be "imdb_stg" .  Start the glue crawler to crawl  the S3 bucket KB-<ACCOUNT_ID>/input location. It should create 2 tables in Glue catalog. 
     If you use another database name instead of "imdb_stg", update the file "idmb_schema.jsonl" the field of "database_name" to the exact name of the new glue database.
 7. Query the 2 tables via Athena to see that the data exists.
-8. Create another folder in the S3 bucket KB-<ACCOUNT_ID> "metadata". 
-   - Upload the file "imdb_schema.json"  into the metadata folder. 
-9. From the Bedrock console, sync up the "movie-knowledgebase".
-10. Run the jupyter notebook  with the following caveats
-    - In the step 2 of this process walkthru, if the values for the index name, vector field , metadata field value are different substitute it in the step "4.1 Update the variables" of the jupyter notebook. 
+8. Create another folder in the S3 bucket KB-<ACCOUNT_ID> "/metadata". 
+   - Upload the file "imdb_schema.jsonl"  into the metadata folder. 
+9. From the Bedrock console, 
+    - Create a datasource with name = 'knowledge-base-movie-details-data-source' , type =  'Amazon S3',  pointing to the S3 foldercreated in step #8. Retain the 'Default chunking and parsing configuration'
+    - Sync the 'knowledge-base-movie-details-data-source'. 
+      Anytime new database changes are applied, dont forget to upload the revised "imdb_schema.jsonl" file to the S3 folder created in step #8 and do a sync . 
+10. Run the jupyter notebook   with the following caveats
+    - In the step 2 of this process walkthru, if the values for the index name, vector field , metadata field value are different substitute the new values  in the step "4.1 Update the variables" of the jupyter notebook. 
+    - If you are running the jupyter notebook using  [Amazon Sagemaker - option 1](https://studiolab.sagemaker.aws/) or [Amazon Sagemaker - option 2](https://docs.aws.amazon.com/sagemaker/latest/dg/ex1-prepare.html) or VSCode , ensure the role or the user has the right set of permissions . 
 11. Continue with rest of the steps till Step 6 . At this stage, the process is ready to receive the query in natural language. 
 12.	User putting their query in natural language. Here, you can use any web-application to provide the chat UI. Hence, we did not cover the UI details in our post.
 13.	Apply RAG framework via the similarity search which would add the extra context from the metadata from the vector database that we formed in Step-2. This table is used for finding the correct table, database and attributes.
@@ -46,6 +48,7 @@ This post will address those challenges. First, we will include the meta-data of
 17.	[Correction loop, if applicable] The new prompt now adds the Athena’s response. 
 18.	[Correction loop, if applicable] Create the corrected SQL and continue the process. This iteration can be performed multiple times.
 19.	Finally, execute SQL using Athena and generate output. Here, the output is presented to the user. For the sake of architectural simplicity, we did not show this step.
+    Since the # of records in the movie file are large and there is no athena partitioning , the queries can take upto 2 mins to execute. This can be optimized in many ways and its not described here. 
 
 ## Using the repo
 Please start with [the notebook](https://github.com/aws-samples/text-to-sql-for-athena/blob/main/BedrockTextToSql_for_Athena.ipynb)
